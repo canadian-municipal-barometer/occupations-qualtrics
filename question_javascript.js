@@ -32,7 +32,7 @@ var $select = $("#select").selectize({
   labelField: "title",
   searchField: "title",
   options: occup_names,
-  create: false,
+  create: true,
 });
 
 // clear button
@@ -43,8 +43,9 @@ $("#button-clear").on("click", function () {
 
 Qualtrics.SurveyEngine.addOnPageSubmit(function () {
   let id = $("#select")[0].selectize.getValue();
-  let selected = occup_lookup[id];
-  if (selected) {
+  console.log(id);
+  if (occup_lookup[id]) {
+    let selected = occup_lookup[id];
     // Set embedded data
     Qualtrics.SurveyEngine.setEmbeddedData("occupation_name", selected.name);
     Qualtrics.SurveyEngine.setEmbeddedData("occupation_code", selected.code);
@@ -52,5 +53,17 @@ Qualtrics.SurveyEngine.addOnPageSubmit(function () {
       "occupation_category",
       selected.category,
     );
+    Qualtrics.SurveyEngine.setEmbeddedData("occup_match", 1);
+    console.log(
+      "match found.",
+      selected.name,
+      selected.code,
+      selected.category,
+    );
+  } else {
+    let selected = id[0];
+    Qualtrics.SurveyEngine.setEmbeddedData("occupation_name", selected);
+    Qualtrics.SurveyEngine.setEmbeddedData("occup_match", 0);
+    console.log("match not found.", selected);
   }
 });
