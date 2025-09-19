@@ -33,6 +33,13 @@ var $select = $("#select").selectize({
   searchField: "title",
   options: occup_names,
   create: true,
+  createFilter: null, // optional: filter to restrict what can be created
+  render: {
+    option_create: function (data, escape) {
+      // Custom message for the "create" option
+      return '<div class="create">' + escape(data.input) + "</div>";
+    },
+  },
 });
 
 // clear button
