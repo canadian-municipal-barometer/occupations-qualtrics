@@ -9,6 +9,34 @@ Qualtrics.SurveyEngine.addOnload(function () {
     this.hideNextButton();
   }
 
+  var surveyLanguage = Qualtrics.SurveyEngine.getEmbeddedData("Q_Language");
+  let prompt;
+  let button_text;
+  let occupation_names;
+  let occupation_category;
+  let occupation_codes;
+
+  // occupation_names_en, etc. loaded in survey header
+  if (surveyLanguage.includes("FR")) {
+    prompt = "Veuillez écrire ou choisir votre profession dans la liste...";
+    button_text = "Nettoyer";
+    occupation_names = occupation_names_fr;
+    occupation_category = occupation_category_fr;
+    occupation_codes = occupation_codes_fr;
+  } else {
+    prompt = "Begin typing your occupation...";
+    button_text = "Clear";
+    occupation_names = occupation_names_en;
+    occupation_category = occupation_category_en;
+    occupation_codes = occupation_codes_en;
+  }
+
+  const select = document.getElementById("select");
+  select.setAttribute("placeholder", prompt);
+
+  const button = document.getElementById("button-clear");
+  button.textContent = button_text;
+
   // Decode Unicode characters (get actual decoded unicode, such as for accented letters)
   function decodeUnicode(str) {
     return str.replace(/\\u[\dA-F]{4}/gi, function (match) {
@@ -17,7 +45,6 @@ Qualtrics.SurveyEngine.addOnload(function () {
   }
 
   // Prepare data
-  // occupation_names and occupation_category loaded in header
   let occup_names = [];
   let occup_lookup = {};
   for (let i = 0; i < occupation_names.length; i++) {
@@ -51,7 +78,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
         return '<div class="create">' + escape(data.input) + "</div>";
       },
     },
-    dropdownParent: 'body'
+    dropdownParent: "body",
   });
 
   if (init_switch) {
