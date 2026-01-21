@@ -2,6 +2,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
   let occup_name = Qualtrics.SurveyEngine.getEmbeddedData("occupation_name");
   console.log("'occupation_name' embedded data:", occup_name);
   let init_switch;
+
   if (occup_name) {
     this.showNextButton();
     init_switch = true;
@@ -122,7 +123,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
         "occupation_category",
         selected.category,
       );
-      Qualtrics.SurveyEngine.setEmbeddedData("occup_match", 1);
+      Qualtrics.SurveyEngine.setEmbeddedData("occupation_match", 1);
       console.log(
         "match found.",
         selected.name,
@@ -132,7 +133,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
     } else {
       let selected = id[0];
       Qualtrics.SurveyEngine.setEmbeddedData("occupation_name", selected);
-      Qualtrics.SurveyEngine.setEmbeddedData("occup_match", 0);
+      Qualtrics.SurveyEngine.setEmbeddedData("occupation_match", 0);
       console.log("match not found.", selected);
     }
   });
