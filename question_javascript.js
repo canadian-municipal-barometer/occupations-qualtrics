@@ -113,7 +113,6 @@ Qualtrics.SurveyEngine.addOnload(function () {
         selected.category,
       );
     } else {
-      // FIX: in 2025/2026 genpop, this condition did not run even once
       let selected = id[0];
       Qualtrics.SurveyEngine.setEmbeddedData("occupation_name", selected);
       Qualtrics.SurveyEngine.setEmbeddedData("occupation_match", 0);
