@@ -3,13 +3,6 @@ Qualtrics.SurveyEngine.addOnload(function () {
   console.log("'occupation_name' embedded data:", occup_name);
   let init_switch;
 
-  if (occup_name) {
-    this.showNextButton();
-    init_switch = true;
-  } else {
-    this.hideNextButton();
-  }
-
   var surveyLanguage = Qualtrics.SurveyEngine.getEmbeddedData("Q_Language");
   let prompt;
   let button_text;
@@ -100,17 +93,6 @@ Qualtrics.SurveyEngine.addOnload(function () {
     control.clear();
   });
 
-  control.on(
-    "change",
-    function (id) {
-      if (id && id.length > 0) {
-        this.showNextButton();
-      } else {
-        this.hideNextButton();
-      }
-    }.bind(this),
-  );
-
   Qualtrics.SurveyEngine.addOnPageSubmit(function () {
     let id = $("#select")[0].selectize.getValue();
     console.log("id:", id);
@@ -131,6 +113,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
         selected.category,
       );
     } else {
+      // FIX: in 2025/2026 genpop, this condition did not run even once
       let selected = id[0];
       Qualtrics.SurveyEngine.setEmbeddedData("occupation_name", selected);
       Qualtrics.SurveyEngine.setEmbeddedData("occupation_match", 0);
