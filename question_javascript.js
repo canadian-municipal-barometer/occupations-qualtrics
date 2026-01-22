@@ -3,13 +3,6 @@ Qualtrics.SurveyEngine.addOnload(function () {
   console.log("'occupation_name' embedded data:", occup_name);
   let init_switch;
 
-  if (occup_name) {
-    this.showNextButton();
-    init_switch = true;
-  } else {
-    this.hideNextButton();
-  }
-
   var surveyLanguage = Qualtrics.SurveyEngine.getEmbeddedData("Q_Language");
   let prompt;
   let button_text;
@@ -99,17 +92,6 @@ Qualtrics.SurveyEngine.addOnload(function () {
   $("#button-clear").on("click", function () {
     control.clear();
   });
-
-  control.on(
-    "change",
-    function (id) {
-      if (id && id.length > 0) {
-        this.showNextButton();
-      } else {
-        this.hideNextButton();
-      }
-    }.bind(this),
-  );
 
   Qualtrics.SurveyEngine.addOnPageSubmit(function () {
     let id = $("#select")[0].selectize.getValue();
