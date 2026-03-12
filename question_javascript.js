@@ -1,5 +1,5 @@
 Qualtrics.SurveyEngine.addOnload(function () {
-  let occup_name = Qualtrics.SurveyEngine.getEmbeddedData("occupation_name");
+  let occup_name = Qualtrics.SurveyEngine.getJSEmbeddedData("occupation_name");
   console.log("'occupation_name' embedded data:", occup_name);
   let init_switch;
 
@@ -10,7 +10,11 @@ Qualtrics.SurveyEngine.addOnload(function () {
     this.hideNextButton();
   }
 
-  var surveyLanguage = Qualtrics.SurveyEngine.getEmbeddedData("Q_Language");
+  // BUG: it might be that in the "New Survey Taking Experience" Qualtrics embeds the survey language different
+  var surveyLanguage =
+    Qualtrics.SurveyEngine.getJSEmbeddedData("survey_language");
+  console.log("Survey Language", surveyLanguage);
+
   let prompt;
   let button_text;
   let occupation_names;
@@ -117,13 +121,19 @@ Qualtrics.SurveyEngine.addOnload(function () {
     if (occup_lookup[id]) {
       let selected = occup_lookup[id];
       // Set embedded data
-      Qualtrics.SurveyEngine.setEmbeddedData("occupation_name", selected.name);
-      Qualtrics.SurveyEngine.setEmbeddedData("occupation_code", selected.code);
-      Qualtrics.SurveyEngine.setEmbeddedData(
+      Qualtrics.SurveyEngine.setJSEmbeddedData(
+        "occupation_name",
+        selected.name,
+      );
+      Qualtrics.SurveyEngine.setJSEmbeddedData(
+        "occupation_code",
+        selected.code,
+      );
+      Qualtrics.SurveyEngine.setJSEmbeddedData(
         "occupation_category",
         selected.category,
       );
-      Qualtrics.SurveyEngine.setEmbeddedData("occupation_match", 1);
+      Qualtrics.SurveyEngine.setJSEmbeddedData("occupation_match", 1);
       console.log(
         "match found.",
         selected.name,
@@ -132,8 +142,8 @@ Qualtrics.SurveyEngine.addOnload(function () {
       );
     } else {
       let selected = id[0];
-      Qualtrics.SurveyEngine.setEmbeddedData("occupation_name", selected);
-      Qualtrics.SurveyEngine.setEmbeddedData("occupation_match", 0);
+      Qualtrics.SurveyEngine.setJSEmbeddedData("occupation_name", selected);
+      Qualtrics.SurveyEngine.setJSEmbeddedData("occupation_match", 0);
       console.log("match not found.", selected);
     }
   });
