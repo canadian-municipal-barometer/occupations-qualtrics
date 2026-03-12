@@ -10,9 +10,12 @@ Qualtrics.SurveyEngine.addOnload(function () {
     this.hideNextButton();
   }
 
-  // BUG: it might be that in the "New Survey Taking Experience" Qualtrics embeds the survey language different
-  var surveyLanguage =
+  let surveyLanguage =
     Qualtrics.SurveyEngine.getJSEmbeddedData("survey_language");
+  if (!surveyLanguage || typeof surveyLanguage !== "string") {
+    console.warn("survey_language not defined. Defaulting to 'EN'.");
+    surveyLanguage = "EN";
+  }
   console.log("Survey Language", surveyLanguage);
 
   let prompt;
@@ -22,7 +25,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
   let occupation_codes;
 
   // occupation_names_en, etc. loaded in survey header
-  if (surveyLanguage.includes("FR")) {
+  if (surveyLanguage.toUpperCase().includes("FR")) {
     prompt = "Veuillez écrire ou choisir votre profession dans la liste...";
     button_text = "Nettoyer";
     occupation_names = occupation_names_fr;
